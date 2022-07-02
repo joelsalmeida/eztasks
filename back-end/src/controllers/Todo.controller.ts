@@ -6,16 +6,21 @@ import {
   Param,
   Post,
   Put,
+  UseFilters,
 } from '@nestjs/common';
 import { ITodo, ITodoUpdate } from 'src/interfaces/ITodo';
+import { CustomExceptionFilter } from 'src/middlewares/CustomExceptionFilter';
+import { JoiValidationPipe } from 'src/middlewares/JoiValidationPipe';
+import { CreateTodoSchema } from 'src/schemas/TodoSchemas';
 import { TodoService } from '../services/Todo.service';
 
 @Controller('todos')
+@UseFilters(new CustomExceptionFilter())
 export class TodoController {
   constructor(private _todoService: TodoService) {}
 
   @Post()
-  create(@Body() todoData: ITodo) {
+  create(@Body(new JoiValidationPipe(CreateTodoSchema)) todoData: ITodo) {
     return this._todoService.create(todoData);
   }
 
@@ -25,7 +30,10 @@ export class TodoController {
   }
 
   @Put(':id')
-  update(@Param() param: { id: string }, @Body() todoData: ITodoUpdate) {
+  update(
+    @Param() param: { id: string },
+    @Body(new JoiValidationPipe(CreateTodoSchema)) todoData: ITodoUpdate,
+  ) {
     return this._todoService.update(param.id, todoData);
   }
 
