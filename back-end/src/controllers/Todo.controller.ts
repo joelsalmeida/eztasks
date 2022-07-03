@@ -15,7 +15,7 @@ import { CreateTodoSchema } from 'src/schemas/TodoSchemas';
 import { TodoService } from '../services/Todo.service';
 
 @Controller('todos')
-@UseFilters(new CustomExceptionFilter())
+@UseFilters(CustomExceptionFilter)
 export class TodoController {
   constructor(private _todoService: TodoService) {}
 

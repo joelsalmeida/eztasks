@@ -12,13 +12,12 @@ import {
 
 import { UserService } from '../services/User.service';
 import { IUser, IUserUpdate } from '../interfaces/IUser';
-import { JoiValidationPipe } from 'src/middlewares/JoiValidationPipe';
-import { CreateUserSchema, UpdateUserSchema } from 'src/schemas/UserSchemas';
+import { JoiValidationPipe } from '../middlewares/JoiValidationPipe';
+import { CreateUserSchema, UpdateUserSchema } from '../schemas/UserSchemas';
 import { CustomExceptionFilter } from '../middlewares/CustomExceptionFilter';
 
 @Controller('users')
-@UseFilters(new CustomExceptionFilter())
-@UsePipes()
+@UseFilters(CustomExceptionFilter)
 export class UserController {
   constructor(private _userService: UserService) {}
 
